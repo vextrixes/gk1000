@@ -1,6 +1,6 @@
 extern crate gk1000_controller;
 
+#[allow(unused_must_use)]
 fn main() {
-    gk1000_controller::RGBController::default().set_color(0x9f, 0xff, 0xff);
-    //gk1000_controller::RGBController::new().set_color(0, 225, 20);
+    gk1000_controller::RGBController::default().set_color(0, 0, 255);
 }

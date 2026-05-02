@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-gk1000_controller = {path = "../gk1000_controller"}
+gk1000_controller = { path = "../gk1000_controller" }
