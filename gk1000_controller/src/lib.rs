@@ -1,7 +1,6 @@
-extern crate hidapi;
 mod hid_wrapper;
-
-use crate::hid_wrapper::{HidWrapper, HidWrapperError};
+use hid_wrapper::HidWrapper;
+pub use hid_wrapper::HidWrapperError;
 
 pub struct RGBController {
     hid_wrapper: HidWrapper,
@@ -23,7 +22,7 @@ impl RGBController {
         })
     }
 
-    fn prepare_device(&mut self) -> Result<(), hid_wrapper::HidWrapperError> {
+    fn prepare_device(&mut self) -> Result<(), HidWrapperError> {
         self.hid_wrapper.send_report(&[0x04, 0xab])?;
         self.hid_wrapper.get_report()?;
 
@@ -108,8 +107,12 @@ impl RGBController {
     }
 
     fn custom_keys(&mut self, keymap: &[[u8; 3]; 144]) -> Result<(), HidWrapperError> {
-        for i in 0..9 {
+        for i in 0..9 { //Magic num 9 == len of keymap / 16
             self.hid_wrapper.send_report(&[
+                0x80,
+                keymap[i * 16][0],
+                keymap[i * 16][1],
+                keymap[i * 16][2],
                 0x80,
                 keymap[i * 16 + 1][0],
                 keymap[i * 16 + 1][1],
@@ -169,11 +172,7 @@ impl RGBController {
                 0x80,
                 keymap[i * 16 + 15][0],
                 keymap[i * 16 + 15][1],
-                keymap[i * 16 + 15][2],
-                0x80,
-                keymap[i * 16 + 15][0],
-                keymap[i * 16 + 15][1],
-                keymap[i * 16 + 15][2],
+                keymap[i * 16 + 15][2]
             ])?;
         }
         Ok(())
