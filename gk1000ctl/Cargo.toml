@@ -1,5 +1,6 @@
 [package]
 name = "gk1000ctl"
+description = "A simple cli tool to control the CZC GK1000 RGB"
 version = "1.0.0"
 edition = "2024"
 
