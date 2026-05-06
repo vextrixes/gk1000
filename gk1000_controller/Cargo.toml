@@ -4,4 +4,4 @@ version = "1.0.0"
 edition = "2024"
 
 [dependencies]
-hidapi = { version = "2.6.5", features = ["linux-static-hidraw"] }
+hidapi = { version = "2.6.5", features = ["linux-native"] }
