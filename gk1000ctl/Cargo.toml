@@ -1,0 +1,11 @@
+[package]
+name = "gk1000ctl"
+description = "A simple cli tool to control the CZC GK1000 RGB"
+version = "1.0.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.6.1", features = ["derive"] }
+clap_complete = "4.6.3"
+gk1000_controller = { path = "../gk1000_controller" }
+hex = "0.4.3"
