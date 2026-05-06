@@ -205,6 +205,7 @@ impl RGBController {
     /// ```HidWrapperError::NoHidDeviceError```
     #[allow(clippy::too_many_arguments)]
     pub fn set_effect(&mut self, effect: Effects, red: u8, green: u8, blue: u8, full_color: bool, brightness: u8, speed: u8, direction: u8, keymap: Option<[[u8; 3]; 144]>) -> Result<(), HidWrapperError> {
+        self.hid_wrapper.is_device_connected()?;
         self.hid_wrapper.open_device()?;
 
         self.prepare_device()?;
@@ -221,7 +222,7 @@ impl RGBController {
         }
 
         self.hid_wrapper.send_report(&[
-            effect.to_u8(), red, green, blue, 0, 0, 0, 0, u8::from(full_color), brightness.clamp(0, 16), speed.clamp(0, 16),
+            effect.to_u8(), red, green, blue, 0, 0, 0, 0, u8::from(full_color), brightness.clamp(0, 16), speed.clamp(1, 16),
             direction.clamp(0, 3), 0, 0, 0xaa, 0x55,
         ])?;
 

@@ -1,4 +1,4 @@
-use crate::Effects::{Breath, CentrifugalWave, Colorful, Explosion, Glittering, HorizontalWave, Launch, Pulse, Rain, Ripples, Rotating, Shuttle, SingleOff, SingleOn, Snake, Spectrum, Static, StaticPerKey, Tilt, VerticalWave};
+use Effects::{Breath, CentrifugalWave, Colorful, Explosion, Glittering, HorizontalWave, Launch, Pulse, Rain, Ripples, Rotating, Shuttle, SingleOff, SingleOn, Snake, Spectrum, Static, StaticPerKey, Tilt, VerticalWave};
 
 /// Effects of the keyboard
 pub enum Effects {
