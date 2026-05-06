@@ -11,10 +11,10 @@ pub struct EffectInfo<'a> {
 }
 
 #[allow(dead_code)]
-pub enum DirectionPolicy{
+pub enum DirectionPolicy {
     None,
     Horizontal01,
-    Vertical23
+    Vertical23,
 }
 
 #[allow(dead_code)]
