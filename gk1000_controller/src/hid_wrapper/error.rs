@@ -1,4 +1,3 @@
-use crate::hid_wrapper::error::HidWrapperError::{HidApiError, NoHidDeviceError};
 use hidapi::HidError;
 use std::error::Error;
 use std::fmt::Display;
@@ -13,10 +12,25 @@ pub enum HidWrapperError {
 impl Display for HidWrapperError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            HidApiError(err) => { write!(f, "Hid Api Error: {err}") }
-            NoHidDeviceError => { write!(f, "No Hid Device Found") }
+            HidWrapperError::HidApiError(err) => { write!(f, "Hid Api Error: {err}") }
+            HidWrapperError::NoHidDeviceError => { write!(f, "No Hid Device Found") }
         }
     } //TODO
 }
 
 impl Error for HidWrapperError {}
+
+impl From<HidError> for HidWrapperError {
+    fn from(error: HidError) -> Self {
+        match error {
+            HidError::HidApiError { ref message } => {
+                if message == "No HID devices with requested VID/PID found in the system." {
+                    HidWrapperError::NoHidDeviceError
+                } else {
+                    HidWrapperError::HidApiError(error)
+                }
+            }
+            _ => HidWrapperError::HidApiError(error)
+        }
+    }
+}
