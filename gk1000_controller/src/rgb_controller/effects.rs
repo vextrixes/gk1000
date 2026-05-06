@@ -1,4 +1,8 @@
-use Effects::{Breath, CentrifugalWave, Colorful, Explosion, Glittering, HorizontalWave, Launch, Pulse, Rain, Ripples, Rotating, Shuttle, SingleOff, SingleOn, Snake, Spectrum, Static, StaticPerKey, Tilt, VerticalWave};
+use Effects::{
+    Breath, CentrifugalWave, Colorful, Explosion, Glittering, HorizontalWave, Launch, Pulse, Rain,
+    Ripples, Rotating, Shuttle, SingleOff, SingleOn, Snake, Spectrum, Static, StaticPerKey, Tilt,
+    VerticalWave,
+};
 
 /// Effects of the keyboard
 pub enum Effects {
@@ -47,7 +51,7 @@ impl Effects {
             Pulse => 17,
             Tilt => 18,
             Shuttle => 19,
-            StaticPerKey => 20
+            StaticPerKey => 20,
         }
     }
 }

@@ -37,7 +37,12 @@ pub enum Cmds {
 pub struct StaticArgs {
     #[clap(value_parser)]
     pub color: Color,
-    #[arg(short, long, default_value_t = 16, help = "Brightness of the effect (min 0, max 16)")]
+    #[arg(
+        short,
+        long,
+        default_value_t = 16,
+        help = "Brightness of the effect (min 0, max 16)"
+    )]
     pub brightness: u8,
     #[clap(long, short, action)]
     pub full_color: bool,
@@ -47,9 +52,19 @@ pub struct StaticArgs {
 pub struct StdArgs {
     #[clap(value_parser)]
     pub color: Color,
-    #[arg(short, long, default_value_t = 16, help = "Brightness of the effect (min 0, max 16)")]
+    #[arg(
+        short,
+        long,
+        default_value_t = 16,
+        help = "Brightness of the effect (min 0, max 16)"
+    )]
     pub brightness: u8,
-    #[arg(short, long, default_value_t = 8, help = "Speed of the effect (min 1, max 16)")]
+    #[arg(
+        short,
+        long,
+        default_value_t = 8,
+        help = "Speed of the effect (min 1, max 16)"
+    )]
     pub speed: u8,
     #[clap(long, short, action)]
     pub full_color: bool,
@@ -57,9 +72,19 @@ pub struct StdArgs {
 
 #[derive(Args, Debug)]
 pub struct SpectrumArgs {
-    #[arg(short, long, default_value_t = 16, help = "Brightness of the effect (min 0, max 16)")]
+    #[arg(
+        short,
+        long,
+        default_value_t = 16,
+        help = "Brightness of the effect (min 0, max 16)"
+    )]
     pub brightness: u8,
-    #[arg(short, long, default_value_t = 8, help = "Speed of the effect (min 1, max 16)")]
+    #[arg(
+        short,
+        long,
+        default_value_t = 8,
+        help = "Speed of the effect (min 1, max 16)"
+    )]
     pub speed: u8,
 }
 
@@ -73,7 +98,7 @@ impl VerticalDirections {
     pub fn to_u8(&self) -> u8 {
         match self {
             VerticalDirections::Down => 2,
-            VerticalDirections::Up => 3
+            VerticalDirections::Up => 3,
         }
     }
 }
@@ -82,9 +107,19 @@ impl VerticalDirections {
 pub struct VerticalWaveArgs {
     #[clap(value_parser)]
     pub color: Color,
-    #[arg(short, long, default_value_t = 16, help = "Brightness of the effect (min 0, max 16)")]
+    #[arg(
+        short,
+        long,
+        default_value_t = 16,
+        help = "Brightness of the effect (min 0, max 16)"
+    )]
     pub brightness: u8,
-    #[arg(short, long, default_value_t = 8, help = "Speed of the effect (min 1, max 16)")]
+    #[arg(
+        short,
+        long,
+        default_value_t = 8,
+        help = "Speed of the effect (min 1, max 16)"
+    )]
     pub speed: u8,
     #[clap(value_enum)]
     pub direction: VerticalDirections,
@@ -102,7 +137,7 @@ impl HorizontalDirections {
     pub fn to_u8(&self) -> u8 {
         match self {
             HorizontalDirections::Left => 0,
-            HorizontalDirections::Right => 1
+            HorizontalDirections::Right => 1,
         }
     }
 }
@@ -111,9 +146,19 @@ impl HorizontalDirections {
 pub struct HorizontalWaveArgs {
     #[clap(value_parser)]
     pub color: Color,
-    #[arg(short, long, default_value_t = 16, help = "Brightness of the effect (min 0, max 16)")]
+    #[arg(
+        short,
+        long,
+        default_value_t = 16,
+        help = "Brightness of the effect (min 0, max 16)"
+    )]
     pub brightness: u8,
-    #[arg(short, long, default_value_t = 8, help = "Speed of the effect (min 1, max 16)")]
+    #[arg(
+        short,
+        long,
+        default_value_t = 8,
+        help = "Speed of the effect (min 1, max 16)"
+    )]
     pub speed: u8,
     #[clap(value_enum)]
     pub direction: HorizontalDirections,

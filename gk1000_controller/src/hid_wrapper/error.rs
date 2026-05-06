@@ -12,8 +12,12 @@ pub enum HidWrapperError {
 impl Display for HidWrapperError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            HidWrapperError::HidApiError(err) => { write!(f, "Hid Api Error: {err}") }
-            HidWrapperError::NoHidDeviceError => { write!(f, "No Hid Device Found") }
+            HidWrapperError::HidApiError(err) => {
+                write!(f, "Hid Api Error: {err}")
+            }
+            HidWrapperError::NoHidDeviceError => {
+                write!(f, "No Hid Device Found")
+            }
         }
     }
 }
@@ -30,7 +34,7 @@ impl From<HidError> for HidWrapperError {
                     HidWrapperError::HidApiError(error)
                 }
             }
-            _ => HidWrapperError::HidApiError(error)
+            _ => HidWrapperError::HidApiError(error),
         }
     }
 }

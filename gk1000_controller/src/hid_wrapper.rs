@@ -1,6 +1,6 @@
 extern crate hidapi;
-pub mod error;
 mod constants;
+pub mod error;
 pub mod wrapper;
 
 pub use error::HidWrapperError;

@@ -19,8 +19,8 @@ impl FromStr for Color {
             ));
         }
 
-        let bytes = hex::decode(s)
-            .map_err(|_| format!("invalid color '{s}': must be valid hex"))?;
+        let bytes =
+            hex::decode(s).map_err(|_| format!("invalid color '{s}': must be valid hex"))?;
 
         Ok(Color {
             red: bytes[0],

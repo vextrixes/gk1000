@@ -1,6 +1,6 @@
-use crate::hid_wrapper::HidWrapper;
 use crate::Effects;
 use crate::HidWrapperError;
+use crate::hid_wrapper::HidWrapper;
 
 pub struct RGBController {
     hid_wrapper: HidWrapper,
@@ -66,7 +66,8 @@ impl RGBController {
     /// # Errors
     /// ```HidWrapperError::HidApiError```
     /// ```HidWrapperError::NoHidDeviceError```
-    fn mid(&mut self) -> Result<(), HidWrapperError> { //TODO: Rename func and possibly change packets depending on mode
+    fn mid(&mut self) -> Result<(), HidWrapperError> {
+        //TODO: Rename func and possibly change packets depending on mode
         self.hid_wrapper.send_report(&[
             0x1, 0x0, 0x0, 0xff, 0x0, 0xff, 0x0, 0x0, 0x0, 0x10, 0xc, 0x0, 0x0, 0x0, 0xaa, 0x55,
             0x2, 0x0, 0x0, 0xff, 0x0, 0x0, 0x0, 0x0, 0x1, 0x10, 0xc, 0x0, 0x0, 0x0, 0xaa, 0x55,
@@ -112,7 +113,8 @@ impl RGBController {
     /// ```HidWrapperError::HidApiError```
     /// ```HidWrapperError::NoHidDeviceError```
     fn custom_keys(&mut self, keymap: &[[u8; 3]; 144]) -> Result<(), HidWrapperError> {
-        for i in 0..9 { //Magic num 9 == len of keymap / 16
+        for i in 0..9 {
+            //Magic num 9 == len of keymap / 16
             self.hid_wrapper.send_report(&[
                 0x80,
                 keymap[i * 16][0],
@@ -177,7 +179,7 @@ impl RGBController {
                 0x80,
                 keymap[i * 16 + 15][0],
                 keymap[i * 16 + 15][1],
-                keymap[i * 16 + 15][2]
+                keymap[i * 16 + 15][2],
             ])?;
         }
         Ok(())
@@ -204,7 +206,18 @@ impl RGBController {
     /// ```HidWrapperError::HidApiError```
     /// ```HidWrapperError::NoHidDeviceError```
     #[allow(clippy::too_many_arguments)]
-    pub fn set_effect(&mut self, effect: Effects, red: u8, green: u8, blue: u8, full_color: bool, brightness: u8, speed: u8, direction: u8, keymap: Option<[[u8; 3]; 144]>) -> Result<(), HidWrapperError> {
+    pub fn set_effect(
+        &mut self,
+        effect: Effects,
+        red: u8,
+        green: u8,
+        blue: u8,
+        full_color: bool,
+        brightness: u8,
+        speed: u8,
+        direction: u8,
+        keymap: Option<[[u8; 3]; 144]>,
+    ) -> Result<(), HidWrapperError> {
         self.hid_wrapper.open_device()?;
 
         self.prepare_device()?;
@@ -221,8 +234,22 @@ impl RGBController {
         }
 
         self.hid_wrapper.send_report(&[
-            effect.to_u8(), red, green, blue, 0, 0, 0, 0, u8::from(full_color), brightness.clamp(0, 16), speed.clamp(1, 16),
-            direction.clamp(0, 3), 0, 0, 0xaa, 0x55,
+            effect.to_u8(),
+            red,
+            green,
+            blue,
+            0,
+            0,
+            0,
+            0,
+            u8::from(full_color),
+            brightness.clamp(0, 16),
+            speed.clamp(1, 16),
+            direction.clamp(0, 3),
+            0,
+            0,
+            0xaa,
+            0x55,
         ])?;
 
         self.apply_to_device()?;
@@ -231,85 +258,438 @@ impl RGBController {
 
         Ok(())
     }
-    pub fn set_static_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Static, red, green, blue, full_color.unwrap_or(false), brightness, 1, 0, None)
+    pub fn set_static_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Static,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            1,
+            0,
+            None,
+        )
     }
 
-    pub fn set_single_off_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::SingleOff, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_single_off_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::SingleOff,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_single_on_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::SingleOn, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_single_on_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::SingleOn,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_glittering_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Glittering, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_glittering_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Glittering,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_rain_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Rain, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_rain_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Rain,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_colorful_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Colorful, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_colorful_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Colorful,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_breath_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Breath, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_breath_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Breath,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_spectrum_effect(&mut self, brightness: u8, speed: u8) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Spectrum, 0, 0, 0, false, brightness, speed, 0, None)
+    pub fn set_spectrum_effect(
+        &mut self,
+        brightness: u8,
+        speed: u8,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Spectrum,
+            0,
+            0,
+            0,
+            false,
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_centrifugal_wave_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::CentrifugalWave, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_centrifugal_wave_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::CentrifugalWave,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub fn set_vertical_wave_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, direction: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::VerticalWave, red, green, blue, full_color.unwrap_or(false), brightness, speed, direction.clamp(2, 3), None)
+    pub fn set_vertical_wave_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        direction: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::VerticalWave,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            direction.clamp(2, 3),
+            None,
+        )
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub fn set_horizontal_wave_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, direction: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::HorizontalWave, red, green, blue, full_color.unwrap_or(false), brightness, speed, direction.clamp(0, 1), None)
+    pub fn set_horizontal_wave_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        direction: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::HorizontalWave,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            direction.clamp(0, 1),
+            None,
+        )
     }
 
-    pub fn set_rotating_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Rotating, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_rotating_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Rotating,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_explosion_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Explosion, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_explosion_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Explosion,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_launch_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Launch, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_launch_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Launch,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_ripples_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Ripples, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_ripples_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Ripples,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_snake_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Snake, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_snake_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Snake,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_pulse_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Pulse, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_pulse_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Pulse,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_tilt_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Tilt, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_tilt_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Tilt,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_shuttle_effect(&mut self, red: u8, green: u8, blue: u8, brightness: u8, speed: u8, full_color: Option<bool>) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::Shuttle, red, green, blue, full_color.unwrap_or(false), brightness, speed, 0, None)
+    pub fn set_shuttle_effect(
+        &mut self,
+        red: u8,
+        green: u8,
+        blue: u8,
+        brightness: u8,
+        speed: u8,
+        full_color: Option<bool>,
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::Shuttle,
+            red,
+            green,
+            blue,
+            full_color.unwrap_or(false),
+            brightness,
+            speed,
+            0,
+            None,
+        )
     }
 
-    pub fn set_static_per_key_effect(&mut self, brightness: u8, keymap: [[u8; 3]; 144]) -> Result<(), HidWrapperError> {
-        self.set_effect(Effects::StaticPerKey, 0, 0, 0, false, brightness, 1, 0, Some(keymap))
+    pub fn set_static_per_key_effect(
+        &mut self,
+        brightness: u8,
+        keymap: [[u8; 3]; 144],
+    ) -> Result<(), HidWrapperError> {
+        self.set_effect(
+            Effects::StaticPerKey,
+            0,
+            0,
+            0,
+            false,
+            brightness,
+            1,
+            0,
+            Some(keymap),
+        )
     }
 }

@@ -1,4 +1,6 @@
-use crate::hid_wrapper::constants::{GET_REPORT_REPORT, MAX_SEND_REPORT_LEN, PRODUCT_ID, VENDOR_ID};
+use crate::hid_wrapper::constants::{
+    GET_REPORT_REPORT, MAX_SEND_REPORT_LEN, PRODUCT_ID, VENDOR_ID,
+};
 use crate::hid_wrapper::error::HidWrapperError;
 use hidapi::{HidApi, HidDevice};
 
@@ -29,7 +31,7 @@ impl HidWrapper {
         Ok(HidWrapper {
             hid_api: match HidApi::new() {
                 Ok(hidapi) => hidapi,
-                Err(err) => return Err(HidWrapperError::from(err))
+                Err(err) => return Err(HidWrapperError::from(err)),
             },
             hid_device: None,
         })
@@ -38,11 +40,11 @@ impl HidWrapper {
     pub fn is_device_connected(&mut self) -> Result<bool, HidWrapperError> {
         match self.hid_api.reset_devices() {
             Ok(_) => {}
-            Err(err) => return Err(HidWrapperError::from(err))
+            Err(err) => return Err(HidWrapperError::from(err)),
         };
         match self.hid_api.add_devices(VENDOR_ID, PRODUCT_ID) {
             Ok(_) => {}
-            Err(err) => return Err(HidWrapperError::from(err))
+            Err(err) => return Err(HidWrapperError::from(err)),
         };
         Ok(self.hid_api.device_list().count() >= 1)
     }
@@ -55,7 +57,7 @@ impl HidWrapper {
     pub fn open_device(&mut self) -> Result<(), HidWrapperError> {
         self.hid_device = match self.hid_api.open(VENDOR_ID, PRODUCT_ID) {
             Ok(hid_device) => Some(hid_device),
-            Err(err) => return Err(HidWrapperError::from(err))
+            Err(err) => return Err(HidWrapperError::from(err)),
         };
         Ok(())
     }
@@ -78,10 +80,10 @@ impl HidWrapper {
                 out[1..1 + data.len()].copy_from_slice(data);
                 match hid_device.send_feature_report(&out) {
                     Ok(_) => Ok(()),
-                    Err(err) => Err(HidWrapperError::from(err))
+                    Err(err) => Err(HidWrapperError::from(err)),
                 }
             }
-            None => Err(HidWrapperError::NoHidDeviceError)
+            None => Err(HidWrapperError::NoHidDeviceError),
         }
     }
 
@@ -100,7 +102,7 @@ impl HidWrapper {
                     Err(err) => Err(HidWrapperError::from(err)),
                 }
             }
-            None => Err(HidWrapperError::NoHidDeviceError)
+            None => Err(HidWrapperError::NoHidDeviceError),
         }
     }
 }
