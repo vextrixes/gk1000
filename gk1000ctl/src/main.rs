@@ -123,7 +123,7 @@ fn main() {
                 Ok(_) => println!("Changed effect to Shuttle"),
                 Err(err) => panic!("Error changing effect: {:?}", err),
             };
-        }
+        } //TODO: Static per key effect support
         Cmds::Completions(args) => { print_completions(args.shell, &mut ArgsCli::command()) }
     }
 }
