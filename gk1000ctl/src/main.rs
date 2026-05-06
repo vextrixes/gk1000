@@ -1,10 +1,12 @@
 mod color;
 mod commands;
 mod completions;
+mod error_handler;
 
 use clap::{CommandFactory, Parser};
 use commands::{ArgsCli, Cmds};
 use completions::print_completions;
+use error_handler::error_handler;
 
 fn main() {
     let args = ArgsCli::parse();
@@ -18,7 +20,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Static"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::SingleOn(effect) => {
@@ -31,7 +33,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Single On"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::SingleOff(effect) => {
@@ -44,7 +46,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Single Off"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Glittering(effect) => {
@@ -57,7 +59,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Glittering"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Rain(effect) => {
@@ -70,7 +72,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Rain"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Colorful(effect) => {
@@ -83,7 +85,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Colorful"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Breath(effect) => {
@@ -96,7 +98,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Breath"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Spectrum(effect) => {
@@ -104,7 +106,7 @@ fn main() {
                 .set_spectrum_effect(effect.brightness, effect.speed)
             {
                 Ok(_) => println!("Changed effect to Spectrum"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::CentrifugalWave(effect) => {
@@ -117,7 +119,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Centrifugal wave"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::VerticalWave(effect) => {
@@ -131,7 +133,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Vertical wave"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::HorizontalWave(effect) => {
@@ -145,7 +147,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Horizontal wave"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Rotating(effect) => {
@@ -158,7 +160,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Rotating"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Explosion(effect) => {
@@ -171,7 +173,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Explosion"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Launch(effect) => {
@@ -184,7 +186,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Launch"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Ripples(effect) => {
@@ -197,7 +199,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Ripples"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Snake(effect) => {
@@ -210,7 +212,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Snake"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Pulse(effect) => {
@@ -223,7 +225,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Pulse"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Tilt(effect) => {
@@ -236,7 +238,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Tilt"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         }
         Cmds::Shuttle(effect) => {
@@ -249,7 +251,7 @@ fn main() {
                 Some(effect.full_color),
             ) {
                 Ok(_) => println!("Changed effect to Shuttle"),
-                Err(err) => panic!("Error changing effect: {:?}", err),
+                Err(err) => error_handler(err),
             };
         } //TODO: Static per key effect support
         Cmds::Completions(args) => print_completions(args.shell, &mut ArgsCli::command()),
