@@ -15,7 +15,7 @@ impl Display for HidWrapperError {
             HidWrapperError::HidApiError(err) => { write!(f, "Hid Api Error: {err}") }
             HidWrapperError::NoHidDeviceError => { write!(f, "No Hid Device Found") }
         }
-    } //TODO
+    }
 }
 
 impl Error for HidWrapperError {}
