@@ -1,5 +1,5 @@
 pkgname=gk1000ctl
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc="A simple cli tool to control the CZC GK1000 RGB"
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
@@ -9,7 +9,7 @@ depends=(hidapi)
 makedepends=(cargo
             hidapi)
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('b0136c52e7b6356c64366330cf629f53a1a386fbff400a43c445ad106941134f')
+sha256sums=('247de48a56a0f00ef3e4be5995174be91e8f421ce12c59be76379c75cbbb44c0')
 options=('!debug')
 
 prepare(){
