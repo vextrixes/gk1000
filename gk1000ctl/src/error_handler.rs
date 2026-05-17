@@ -4,11 +4,11 @@ use std::process::exit;
 pub fn error_handler(err: HidWrapperError) -> () {
     match err {
         HidWrapperError::NoHidDeviceError => {
-            println!("NoHidDeviceError: Is the keyboard plugged in?");
+            eprintln!("NoHidDeviceError: Is the keyboard plugged in?");
             exit(libc::ENODEV)
         }
         HidWrapperError::HidApiError(err) => {
-            println!("HidApiError: {:?}", err);
+            eprintln!("HidApiError: {:?}", err);
             exit(libc::EIO)
         }
     }
